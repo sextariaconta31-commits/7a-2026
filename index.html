@@ -1,0 +1,1563 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>7°A 2026 - Nossa Turma</title>
+    <!-- Font Awesome para ícones -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts - Poppins -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        /* Tela de Login/Registro */
+        .auth-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .auth-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 450px;
+            overflow: hidden;
+            animation: slideUp 0.5s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .auth-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 2rem;
+            text-align: center;
+            color: white;
+        }
+
+        .auth-header i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .auth-header h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .auth-header p {
+            opacity: 0.9;
+            font-size: 1rem;
+        }
+
+        .auth-tabs {
+            display: flex;
+            padding: 1rem 1rem 0;
+            gap: 0.5rem;
+            background: #f8f9fa;
+        }
+
+        .auth-tab {
+            flex: 1;
+            padding: 1rem;
+            border: none;
+            background: none;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #666;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 12px 12px 0 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .auth-tab:hover {
+            color: #667eea;
+            background: rgba(102, 126, 234, 0.1);
+        }
+
+        .auth-tab.active {
+            color: #667eea;
+            background: white;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .auth-forms {
+            padding: 2rem;
+            background: white;
+        }
+
+        .auth-form {
+            display: none;
+        }
+
+        .auth-form.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #333;
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .form-group label i {
+            color: #667eea;
+            margin-right: 8px;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-wrapper i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+            transition: color 0.3s ease;
+        }
+
+        .input-wrapper input {
+            width: 100%;
+            padding: 12px 15px 12px 45px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .input-wrapper input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .input-wrapper input:focus + i {
+            color: #667eea;
+        }
+
+        .auth-btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 1rem;
+        }
+
+        .auth-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .auth-footer {
+            text-align: center;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #e0e0e0;
+            color: #666;
+        }
+
+        .auth-footer a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .auth-footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Header e Navegação */
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            display: none;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo i {
+            font-size: 2rem;
+            color: #667eea;
+        }
+
+        .logo span {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .logout-btn {
+            background: none;
+            border: none;
+            color: #666;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: color 0.3s ease;
+        }
+
+        .logout-btn:hover {
+            color: #f44336;
+        }
+
+        /* Container Principal */
+        .main-container {
+            max-width: 1400px;
+            margin: 100px auto 2rem;
+            padding: 0 2rem;
+            display: none;
+        }
+
+        /* Welcome Section */
+        .welcome-section {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .welcome-text h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .welcome-text p {
+            color: #666;
+        }
+
+        .date-badge {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .date-badge .day {
+            font-size: 2rem;
+            font-weight: 700;
+            line-height: 1;
+        }
+
+        .date-badge .month {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        /* Abas de Navegação */
+        .tabs-container {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .tab-buttons {
+            display: flex;
+            background: #f8f9fa;
+            padding: 1rem 1rem 0;
+            gap: 1rem;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .tab-btn {
+            padding: 1rem 2rem;
+            border: none;
+            background: none;
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: #666;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-radius: 12px 12px 0 0;
+        }
+
+        .tab-btn:hover {
+            color: #667eea;
+            background: rgba(102, 126, 234, 0.1);
+        }
+
+        .tab-btn.active {
+            color: #667eea;
+            background: white;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .tab-content {
+            padding: 2rem;
+        }
+
+        .tab-pane {
+            display: none;
+        }
+
+        .tab-pane.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Cards Grid */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid #f0f0f0;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .card-header h3 {
+            font-size: 1.2rem;
+            color: #333;
+        }
+
+        .card-badge {
+            background: #e8f0fe;
+            color: #667eea;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        /* Comunidade Section */
+        .community-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 12px;
+        }
+
+        .stat-number {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #667eea;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .post {
+            border-bottom: 1px solid #e0e0e0;
+            padding: 1rem 0;
+        }
+
+        .post:last-child {
+            border-bottom: none;
+        }
+
+        .post-author {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 0.5rem;
+        }
+
+        .post-author img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .post-author-info h4 {
+            font-size: 1rem;
+            margin-bottom: 0.2rem;
+        }
+
+        .post-author-info span {
+            font-size: 0.8rem;
+            color: #999;
+        }
+
+        .post-content {
+            margin-left: 50px;
+        }
+
+        .post-content p {
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .post-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 0.5rem;
+        }
+
+        .post-actions button {
+            border: none;
+            background: none;
+            color: #999;
+            cursor: pointer;
+            transition: color 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .post-actions button:hover {
+            color: #667eea;
+        }
+
+        /* Tarefas Section */
+        .task-filters {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .filter-btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            background: #f8f9fa;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn.active {
+            background: #667eea;
+            color: white;
+        }
+
+        .task-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .task-item:last-child {
+            border-bottom: none;
+        }
+
+        .task-check {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #667eea;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .task-check.checked {
+            background: #667eea;
+            border-color: #667eea;
+            position: relative;
+        }
+
+        .task-check.checked::after {
+            content: '\f00c';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            color: white;
+            font-size: 12px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .task-info {
+            flex: 1;
+        }
+
+        .task-info h4 {
+            font-size: 1rem;
+            margin-bottom: 0.2rem;
+        }
+
+        .task-info p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .task-deadline {
+            color: #f44336;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .task-priority {
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .priority-high {
+            background: #fee;
+            color: #f44336;
+        }
+
+        .priority-medium {
+            background: #fff3e0;
+            color: #ff9800;
+        }
+
+        .priority-low {
+            background: #e8f5e9;
+            color: #4caf50;
+        }
+
+        /* Provas Section */
+        .exams-timeline {
+            position: relative;
+            padding: 2rem 0;
+        }
+
+        .exams-timeline::before {
+            content: '';
+            position: absolute;
+            left: 20px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .exam-item {
+            position: relative;
+            padding-left: 50px;
+            margin-bottom: 2rem;
+        }
+
+        .exam-item::before {
+            content: '';
+            position: absolute;
+            left: 12px;
+            top: 0;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: white;
+            border: 3px solid #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+        }
+
+        .exam-card {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+
+        .exam-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .exam-header h3 {
+            font-size: 1.2rem;
+            color: #333;
+        }
+
+        .exam-date {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 0.3rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        .exam-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .exam-info-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #666;
+        }
+
+        .exam-info-item i {
+            color: #667eea;
+        }
+
+        .study-materials {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .study-materials h4 {
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .material-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .material-tag {
+            background: white;
+            padding: 0.3rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: #667eea;
+            border: 1px solid #667eea;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .material-tag:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: white;
+            margin-top: 3rem;
+            display: none;
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .welcome-section {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+            
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .tab-buttons {
+                flex-wrap: wrap;
+            }
+            
+            .tab-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Tela de Login/Registro -->
+    <div id="authContainer" class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <i class="fas fa-graduation-cap"></i>
+                <h1>7°A 2026</h1>
+                <p>Faça login ou registre-se</p>
+            </div>
+            
+            <div class="auth-tabs">
+                <button class="auth-tab active" onclick="switchAuthTab('login')">
+                    <i class="fas fa-sign-in-alt"></i> Login
+                </button>
+                <button class="auth-tab" onclick="switchAuthTab('register')">
+                    <i class="fas fa-user-plus"></i> Registro
+                </button>
+            </div>
+            
+            <div class="auth-forms">
+                <!-- Formulário de Login -->
+                <div id="loginForm" class="auth-form active">
+                    <form onsubmit="handleLogin(event)">
+                        <div class="form-group">
+                            <label><i class="fas fa-user"></i> Nome</label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-user"></i>
+                                <input type="text" id="loginName" placeholder="Digite seu nome" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label><i class="fas fa-lock"></i> Senha</label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-key"></i>
+                                <input type="password" id="loginPassword" placeholder="Digite sua senha" required>
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="auth-btn">
+                            <i class="fas fa-sign-in-alt"></i> Entrar
+                        </button>
+                        
+                        <div class="auth-footer">
+                            Não tem cadastro? <a onclick="switchAuthTab('register')">Registre-se</a>
+                        </div>
+                    </form>
+                </div>
+                
+                <!-- Formulário de Registro -->
+                <div id="registerForm" class="auth-form">
+                    <form onsubmit="handleRegister(event)">
+                        <div class="form-group">
+                            <label><i class="fas fa-user"></i> Nome Completo</label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-user"></i>
+                                <input type="text" id="registerName" placeholder="Digite seu nome" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label><i class="fas fa-lock"></i> Senha</label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-key"></i>
+                                <input type="password" id="registerPassword" placeholder="Crie uma senha" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label><i class="fas fa-lock"></i> Confirmar Senha</label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-key"></i>
+                                <input type="password" id="confirmPassword" placeholder="Confirme sua senha" required>
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="auth-btn">
+                            <i class="fas fa-user-plus"></i> Registrar
+                        </button>
+                        
+                        <div class="auth-footer">
+                            Já tem cadastro? <a onclick="switchAuthTab('login')">Faça login</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header id="mainHeader">
+        <nav>
+            <div class="logo">
+                <i class="fas fa-graduation-cap"></i>
+                <span>7°A 2026</span>
+            </div>
+            <ul class="nav-links">
+                <li><a onclick="showMainTab('home')" class="active"><i class="fas fa-home"></i> Início</a></li>
+                <li><a onclick="showMainTab('comunidade')"><i class="fas fa-users"></i> Comunidade</a></li>
+                <li><a onclick="showMainTab('tarefas')"><i class="fas fa-tasks"></i> Tarefas</a></li>
+                <li><a onclick="showMainTab('provas')"><i class="fas fa-pencil-alt"></i> Provas</a></li>
+            </ul>
+            <div class="user-info">
+                <i class="fas fa-bell" style="color: #666; cursor: pointer;"></i>
+                <div class="user-avatar" id="userAvatar" onclick="showUserMenu()">
+                    <span id="avatarInitials">?</span>
+                </div>
+                <button class="logout-btn" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Conteúdo Principal -->
+    <main id="mainContent" class="main-container">
+        <section class="welcome-section">
+            <div class="welcome-text">
+                <h1 id="welcomeMessage">Bem-vindo, 7°A 2026! 👋</h1>
+                <p><i class="fas fa-map-marker-alt" style="color: #667eea;"></i> Nossa turma</p>
+            </div>
+            <div class="date-badge">
+                <div class="day">1</div>
+                <div class="month">Março 2026</div>
+            </div>
+        </section>
+
+        <div class="tabs-container">
+            <div class="tab-buttons">
+                <button class="tab-btn active" onclick="showContentTab('comunidade')">
+                    <i class="fas fa-users"></i> Comunidade
+                </button>
+                <button class="tab-btn" onclick="showContentTab('tarefas')">
+                    <i class="fas fa-tasks"></i> Tarefas
+                </button>
+                <button class="tab-btn" onclick="showContentTab('provas')">
+                    <i class="fas fa-pencil-alt"></i> Provas
+                </button>
+            </div>
+
+            <div class="tab-content">
+                <!-- Aba Comunidade -->
+                <div id="contentComunidade" class="tab-pane active">
+                    <div class="community-stats">
+                        <div class="stat-item">
+                            <div class="stat-number" id="totalAlunos">0</div>
+                            <div class="stat-label">Alunos</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number" id="totalPosts">0</div>
+                            <div class="stat-label">Posts</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number" id="onlineAgora">0</div>
+                            <div class="stat-label">Online</div>
+                        </div>
+                    </div>
+
+                    <!-- Feed de Posts -->
+                    <div class="cards-grid">
+                        <div class="card" style="grid-column: 1 / -1;">
+                            <div class="card-header">
+                                <h3><i class="fas fa-pen"></i> Criar Postagem</h3>
+                            </div>
+                            <div style="display: flex; gap: 1rem; margin-bottom: 1rem;">
+                                <img src="" alt="" id="currentUserAvatar" style="width: 50px; height: 50px; border-radius: 50%; background: #667eea; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">
+                                <div style="flex: 1;">
+                                    <textarea id="newPostContent" placeholder="O que você quer compartilhar com a turma?" style="width: 100%; padding: 1rem; border: 2px solid #e0e0e0; border-radius: 12px; font-family: 'Poppins', sans-serif; resize: none;" rows="3"></textarea>
+                                    <button onclick="createPost()" style="margin-top: 0.5rem; padding: 0.5rem 2rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 500;">
+                                        <i class="fas fa-paper-plane"></i> Publicar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="postsFeed" class="cards-grid">
+                        <!-- Posts serão carregados aqui -->
+                    </div>
+                </div>
+
+                <!-- Aba Tarefas -->
+                <div id="contentTarefas" class="tab-pane">
+                    <div class="task-filters">
+                        <button class="filter-btn active" onclick="filterTasks('all')">Todas</button>
+                        <button class="filter-btn" onclick="filterTasks('pending')">Pendentes</button>
+                        <button class="filter-btn" onclick="filterTasks('completed')">Concluídas</button>
+                    </div>
+
+                    <!-- Criar Nova Tarefa (só aparece se for admin) -->
+                    <div id="adminTaskSection" style="display: none; margin-bottom: 2rem;">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-plus-circle"></i> Nova Tarefa</h3>
+                            </div>
+                            <div style="display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
+                                <input type="text" id="taskTitle" placeholder="Título da tarefa" style="padding: 0.8rem; border: 2px solid #e0e0e0; border-radius: 8px;">
+                                <input type="text" id="taskDesc" placeholder="Descrição" style="padding: 0.8rem; border: 2px solid #e0e0e0; border-radius: 8px;">
+                                <input type="date" id="taskDate" style="padding: 0.8rem; border: 2px solid #e0e0e0; border-radius: 8px;">
+                                <select id="taskPriority" style="padding: 0.8rem; border: 2px solid #e0e0e0; border-radius: 8px;">
+                                    <option value="high">Alta</option>
+                                    <option value="medium">Média</option>
+                                    <option value="low">Baixa</option>
+                                </select>
+                                <button onclick="createTask()" style="padding: 0.8rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 8px; cursor: pointer;">
+                                    <i class="fas fa-plus"></i> Adicionar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="tasksList" class="cards-grid">
+                        <!-- Tarefas serão carregadas aqui -->
+                    </div>
+                </div>
+
+                <!-- Aba Provas -->
+                <div id="contentProvas" class="tab-pane">
+                    <!-- Criar Nova Prova (só aparece se for admin) -->
+                    <div id="adminExamSection" style="display: none; margin-bottom: 2rem;">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-plus-circle"></i> Nova Prova</h3>
+                            </div>
+                            <div style="display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
+                                <input type="text" id="examTitle" placeholder="Matéria" style="padding: 0.8rem; border: 2px solid #e0e0e0; border-radius: 8px;">
+                                <input type="text" id="examTopic" placeholder="Assunto" style="padding: 0.8rem; border: 2px solid #e0e0e0; border-radius: 8px;">
+                                <input type="date" id="examDate" style="padding: 0.8rem; border: 2px solid #e0e0e0; border-radius: 8px;">
+                                <input type="time" id="examTime" style="padding: 0.8rem; border: 2px solid #e0e0e0; border-radius: 8px;">
+                                <button onclick="createExam()" style="padding: 0.8rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 8px; cursor: pointer;">
+                                    <i class="fas fa-plus"></i> Adicionar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="exams-timeline" id="examsList">
+                        <!-- Provas serão carregadas aqui -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer id="mainFooter">
+        <p>© 2026 7°A - Todos os direitos reservados</p>
+        <p style="font-size: 0.9rem; margin-top: 0.5rem;">Feito com <i class="fas fa-heart" style="color: #ff6b6b;"></i> pela nossa turma</p>
+    </footer>
+
+    <script>
+        // ========== BANCO DE DADOS LOCAL ==========
+        let users = JSON.parse(localStorage.getItem('users_7a_2026')) || [];
+        let posts = JSON.parse(localStorage.getItem('posts_7a_2026')) || [];
+        let tasks = JSON.parse(localStorage.getItem('tasks_7a_2026')) || [];
+        let exams = JSON.parse(localStorage.getItem('exams_7a_2026')) || [];
+        let currentUser = JSON.parse(localStorage.getItem('currentUser_7a_2026')) || null;
+
+        // Admin padrão (primeiro usuário se torna admin)
+        const ADMIN_PASSWORD = "admin7a2026";
+
+        // Verificar se já está logado
+        if (currentUser) {
+            showMainContent();
+        }
+
+        // ========== FUNÇÕES DE AUTENTICAÇÃO ==========
+        function switchAuthTab(tab) {
+            document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.auth-form').forEach(f => f.classList.remove('active'));
+            
+            if (tab === 'login') {
+                document.querySelectorAll('.auth-tab')[0].classList.add('active');
+                document.getElementById('loginForm').classList.add('active');
+            } else {
+                document.querySelectorAll('.auth-tab')[1].classList.add('active');
+                document.getElementById('registerForm').classList.add('active');
+            }
+        }
+
+        function handleRegister(event) {
+            event.preventDefault();
+            
+            const name = document.getElementById('registerName').value.trim();
+            const password = document.getElementById('registerPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            
+            if (!name || !password || !confirmPassword) {
+                alert('Preencha todos os campos!');
+                return;
+            }
+            
+            if (password !== confirmPassword) {
+                alert('As senhas não coincidem!');
+                return;
+            }
+            
+            if (password.length < 4) {
+                alert('A senha deve ter pelo menos 4 caracteres!');
+                return;
+            }
+            
+            // Verificar se nome já existe
+            if (users.some(u => u.name.toLowerCase() === name.toLowerCase())) {
+                alert('Este nome já está em uso!');
+                return;
+            }
+            
+            // Verificar se é o primeiro usuário (vira admin)
+            const isFirst = users.length === 0;
+            
+            const newUser = {
+                id: Date.now(),
+                name: name,
+                password: password,
+                isAdmin: isFirst, // Primeiro usuário é admin
+                avatar: name.substring(0, 2).toUpperCase(),
+                createdAt: new Date().toISOString()
+            };
+            
+            users.push(newUser);
+            localStorage.setItem('users_7a_2026', JSON.stringify(users));
+            
+            alert('Registro realizado com sucesso! Faça o login.');
+            switchAuthTab('login');
+        }
+
+        function handleLogin(event) {
+            event.preventDefault();
+            
+            const name = document.getElementById('loginName').value.trim();
+            const password = document.getElementById('loginPassword').value;
+            
+            const user = users.find(u => u.name.toLowerCase() === name.toLowerCase() && u.password === password);
+            
+            if (user) {
+                currentUser = user;
+                localStorage.setItem('currentUser_7a_2026', JSON.stringify(user));
+                showMainContent();
+                updateStats();
+            } else {
+                alert('Nome ou senha incorretos!');
+            }
+        }
+
+        function logout() {
+            currentUser = null;
+            localStorage.removeItem('currentUser_7a_2026');
+            
+            document.getElementById('authContainer').style.display = 'flex';
+            document.getElementById('mainHeader').style.display = 'none';
+            document.getElementById('mainContent').style.display = 'none';
+            document.getElementById('mainFooter').style.display = 'none';
+            
+            document.getElementById('loginName').value = '';
+            document.getElementById('loginPassword').value = '';
+        }
+
+        function showMainContent() {
+            document.getElementById('authContainer').style.display = 'none';
+            document.getElementById('mainHeader').style.display = 'block';
+            document.getElementById('mainContent').style.display = 'block';
+            document.getElementById('mainFooter').style.display = 'block';
+            
+            // Atualizar saudação
+            document.getElementById('welcomeMessage').textContent = `Bem-vindo, ${currentUser.name}! 👋`;
+            document.getElementById('avatarInitials').textContent = currentUser.name.substring(0, 2).toUpperCase();
+            
+            // Mostrar seções de admin
+            if (currentUser.isAdmin) {
+                document.getElementById('adminTaskSection').style.display = 'block';
+                document.getElementById('adminExamSection').style.display = 'block';
+            }
+            
+            // Carregar dados
+            loadPosts();
+            loadTasks();
+            loadExams();
+            updateStats();
+        }
+
+        // ========== FUNÇÕES DA COMUNIDADE ==========
+        function createPost() {
+            const content = document.getElementById('newPostContent').value.trim();
+            
+            if (!content) {
+                alert('Escreva algo para publicar!');
+                return;
+            }
+            
+            const newPost = {
+                id: Date.now(),
+                authorId: currentUser.id,
+                authorName: currentUser.name,
+                authorAvatar: currentUser.avatar,
+                content: content,
+                likes: [],
+                comments: [],
+                timestamp: new Date().toLocaleString()
+            };
+            
+            posts.unshift(newPost);
+            localStorage.setItem('posts_7a_2026', JSON.stringify(posts));
+            
+            document.getElementById('newPostContent').value = '';
+            loadPosts();
+            updateStats();
+        }
+
+        function likePost(postId) {
+            const post = posts.find(p => p.id === postId);
+            if (!post) return;
+            
+            const index = post.likes.indexOf(currentUser.id);
+            if (index === -1) {
+                post.likes.push(currentUser.id);
+            } else {
+                post.likes.splice(index, 1);
+            }
+            
+            localStorage.setItem('posts_7a_2026', JSON.stringify(posts));
+            loadPosts();
+        }
+
+        function loadPosts() {
+            const feed = document.getElementById('postsFeed');
+            if (posts.length === 0) {
+                feed.innerHTML = `
+                    <div class="card" style="grid-column: 1 / -1; text-align: center; padding: 3rem;">
+                        <i class="fas fa-comments" style="font-size: 3rem; color: #ccc; margin-bottom: 1rem;"></i>
+                        <p style="color: #666;">Nenhuma postagem ainda. Seja o primeiro a postar!</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            feed.innerHTML = posts.map(post => `
+                <div class="card">
+                    <div class="post-author">
+                        <div style="width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">
+                            ${post.authorAvatar}
+                        </div>
+                        <div class="post-author-info">
+                            <h4>${post.authorName}</h4>
+                            <span>${post.timestamp}</span>
+                        </div>
+                    </div>
+                    <div class="post-content">
+                        <p>${post.content}</p>
+                        <div class="post-actions">
+                            <button onclick="likePost(${post.id})">
+                                <i class="${post.likes.includes(currentUser.id) ? 'fas' : 'far'} fa-heart" style="color: ${post.likes.includes(currentUser.id) ? '#f44336' : '#999'};"></i> 
+                                ${post.likes.length}
+                            </button>
+                            <button>
+                                <i class="far fa-comment"></i> 
+                                ${post.comments.length}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // ========== FUNÇÕES DE TAREFAS ==========
+        function createTask() {
+            const title = document.getElementById('taskTitle').value.trim();
+            const desc = document.getElementById('taskDesc').value.trim();
+            const date = document.getElementById('taskDate').value;
+            const priority = document.getElementById('taskPriority').value;
+            
+            if (!title || !desc || !date) {
+                alert('Preencha todos os campos!');
+                return;
+            }
+            
+            const newTask = {
+                id: Date.now(),
+                title: title,
+                description: desc,
+                dueDate: date,
+                priority: priority,
+                completed: false,
+                createdBy: currentUser.id,
+                createdAt: new Date().toISOString()
+            };
+            
+            tasks.push(newTask);
+            localStorage.setItem('tasks_7a_2026', JSON.stringify(tasks));
+            
+            document.getElementById('taskTitle').value = '';
+            document.getElementById('taskDesc').value = '';
+            document.getElementById('taskDate').value = '';
+            loadTasks();
+        }
+
+        function toggleTask(taskId) {
+            const task = tasks.find(t => t.id === taskId);
+            if (task) {
+                task.completed = !task.completed;
+                localStorage.setItem('tasks_7a_2026', JSON.stringify(tasks));
+                loadTasks();
+            }
+        }
+
+        function filterTasks(filter) {
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            event.target.classList.add('active');
+            loadTasks(filter);
+        }
+
+        function loadTasks(filter = 'all') {
+            const list = document.getElementById('tasksList');
+            
+            let filteredTasks = tasks;
+            if (filter === 'pending') {
+                filteredTasks = tasks.filter(t => !t.completed);
+            } else if (filter === 'completed') {
+                filteredTasks = tasks.filter(t => t.completed);
+            }
+            
+            if (filteredTasks.length === 0) {
+                list.innerHTML = `
+                    <div class="card" style="grid-column: 1 / -1; text-align: center; padding: 3rem;">
+                        <i class="fas fa-tasks" style="font-size: 3rem; color: #ccc; margin-bottom: 1rem;"></i>
+                        <p style="color: #666;">Nenhuma tarefa encontrada.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            // Separar por data
+            const today = new Date().toISOString().split('T')[0];
+            const tasksToday = filteredTasks.filter(t => t.dueDate === today);
+            const tasksFuture = filteredTasks.filter(t => t.dueDate > today);
+            const tasksPast = filteredTasks.filter(t => t.dueDate < today && !t.completed);
+            
+            list.innerHTML = '';
+            
+            if (tasksToday.length > 0) {
+                list.innerHTML += `
+                    <div class="card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-clock" style="color: #667eea;"></i> Para Hoje</h3>
+                            <span class="card-badge">${tasksToday.length} tarefas</span>
+                        </div>
+                        ${tasksToday.map(task => `
+                            <div class="task-item">
+                                <div class="task-check ${task.completed ? 'checked' : ''}" onclick="toggleTask(${task.id})"></div>
+                                <div class="task-info">
+                                    <h4>${task.title}</h4>
+                                    <p>${task.description}</p>
+                                </div>
+                                <span class="task-priority priority-${task.priority}">${task.priority === 'high' ? 'Alta' : task.priority === 'medium' ? 'Média' : 'Baixa'}</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
+            
+            if (tasksFuture.length > 0) {
+                list.innerHTML += `
+                    <div class="card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-calendar-alt" style="color: #667eea;"></i> Próximas</h3>
+                            <span class="card-badge">${tasksFuture.length} tarefas</span>
+                        </div>
+                        ${tasksFuture.map(task => `
+                            <div class="task-item">
+                                <div class="task-check ${task.completed ? 'checked' : ''}" onclick="toggleTask(${task.id})"></div>
+                                <div class="task-info">
+                                    <h4>${task.title}</h4>
+                                    <p>${task.description}</p>
+                                </div>
+                                <div class="task-deadline">
+                                    <i class="far fa-calendar"></i> ${new Date(task.dueDate).toLocaleDateString()}
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
+            
+            if (tasksPast.length > 0) {
+                list.innerHTML += `
+                    <div class="card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-exclamation-triangle" style="color: #f44336;"></i> Atrasadas</h3>
+                            <span class="card-badge">${tasksPast.length} tarefas</span>
+                        </div>
+                        ${tasksPast.map(task => `
+                            <div class="task-item">
+                                <div class="task-check ${task.completed ? 'checked' : ''}" onclick="toggleTask(${task.id})"></div>
+                                <div class="task-info">
+                                    <h4>${task.title}</h4>
+                                    <p>${task.description}</p>
+                                </div>
+                                <div class="task-deadline" style="color: #f44336;">
+                                    <i class="fas fa-exclamation"></i> Atrasada
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
+        }
+
+        // ========== FUNÇÕES DE PROVAS ==========
+        function createExam() {
+            const title = document.getElementById('examTitle').value.trim();
+            const topic = document.getElementById('examTopic').value.trim();
+            const date = document.getElementById('examDate').value;
+            const time = document.getElementById('examTime').value;
+            
+            if (!title || !topic || !date || !time) {
+                alert('Preencha todos os campos!');
+                return;
+            }
+            
+            const newExam = {
+                id: Date.now(),
+                subject: title,
+                topic: topic,
+                date: date,
+                time: time,
+                createdBy: currentUser.id,
+                createdAt: new Date().toISOString()
+            };
+            
+            exams.push(newExam);
+            localStorage.setItem('exams_7a_2026', JSON.stringify(exams));
+            
+            document.getElementById('examTitle').value = '';
+            document.getElementById('examTopic').value = '';
+            document.getElementById('examDate').value = '';
+            document.getElementById('examTime').value = '';
+            loadExams();
+        }
+
+        function loadExams() {
+            const list = document.getElementById('examsList');
+            
+            if (exams.length === 0) {
+                list.innerHTML = `
+                    <div class="card" style="text-align: center; padding: 3rem;">
+                        <i class="fas fa-pencil-alt" style="font-size: 3rem; color: #ccc; margin-bottom: 1rem;"></i>
+                        <p style="color: #666;">Nenhuma prova cadastrada ainda.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            // Ordenar por data
+            const sortedExams = exams.sort((a, b) => new Date(a.date) - new Date(b.date));
+            
+            list.innerHTML = sortedExams.map(exam => `
+                <div class="exam-item">
+                    <div class="exam-card">
+                        <div class="exam-header">
+                            <h3>${exam.subject} - ${exam.topic}</h3>
+                            <span class="exam-date">${new Date(exam.date).toLocaleDateString()}</span>
+                        </div>
+                        <div class="exam-info">
+                            <div class="exam-info-item">
+                                <i class="fas fa-clock"></i>
+                                <span>${exam.time}</span>
+                            </div>
+                            <div class="exam-info-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>Sala 34</span>
+                            </div>
+                        </div>
+                        ${currentUser.isAdmin ? `
+                            <div style="margin-top: 1rem; text-align: right;">
+                                <button onclick="deleteExam(${exam.id})" style="padding: 0.3rem 1rem; background: #f44336; color: white; border: none; border-radius: 5px; cursor: pointer;">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        ` : ''}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function deleteExam(examId) {
+            if (confirm('Tem certeza que deseja excluir esta prova?')) {
+                exams = exams.filter(e => e.id !== examId);
+                localStorage.setItem('exams_7a_2026', JSON.stringify(exams));
+                loadExams();
+            }
+        }
+
+        // ========== ESTATÍSTICAS ==========
+        function updateStats() {
+            document.getElementById('totalAlunos').textContent = users.length;
+            document.getElementById('totalPosts').textContent = posts.length;
+            document.getElementById('onlineAgora').textContent = Math.floor(Math.random() * users.length) || 1;
+        }
+
+        // ========== INICIALIZAÇÃO ==========
+        // Atualizar data
+        const today = new Date();
+        document.querySelector('.day').textContent = today.getDate();
+        const months = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+        document.querySelector('.month').textContent = months[today.getMonth()] + ' 2026';
+
+        // Criar admin padrão se não houver usuários
+        if (users.length === 0) {
+            const adminUser = {
+                id: 1,
+                name: 'Professor',
+                password: ADMIN_PASSWORD,
+                isAdmin: true,
+                avatar: 'PR',
+                createdAt: new Date().toISOString()
+            };
+            users.push(adminUser);
+            localStorage.setItem('users_7a_2026', JSON.stringify(users));
+        }
+
+        // Funções de navegação
+        function showMainTab(tab) {
+            document.querySelectorAll('.nav-links a').forEach(l => l.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+
+        function showContentTab(tab) {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+            
+            if (tab === 'comunidade') {
+                document.querySelectorAll('.tab-btn')[0].classList.add('active');
+                document.getElementById('contentComunidade').classList.add('active');
+            } else if (tab === 'tarefas') {
+                document.querySelectorAll('.tab-btn')[1].classList.add('active');
+                document.getElementById('contentTarefas').classList.add('active');
+            } else {
+                document.querySelectorAll('.tab-btn')[2].classList.add('active');
+                document.getElementById('contentProvas').classList.add('active');
+            }
+        }
+
+        function showUserMenu() {
+            // Menu simples por enquanto
+        }
+    </script>
+</body>
+</html>
