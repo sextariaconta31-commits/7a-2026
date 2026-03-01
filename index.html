@@ -472,6 +472,63 @@
             font-weight: 500;
         }
 
+        /* Formulários */
+        .form-container {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .form-grid {
+            display: grid;
+            gap: 1rem;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        }
+
+        .form-input {
+            padding: 0.8rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+            width: 100%;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .btn-primary {
+            padding: 0.8rem 1.5rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-delete {
+            padding: 0.3rem 1rem;
+            background: #f44336;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .btn-delete:hover {
+            background: #d32f2f;
+        }
+
         /* Comunidade Section */
         .community-stats {
             display: grid;
@@ -777,6 +834,15 @@
             color: white;
         }
 
+        .exam-author {
+            font-size: 0.8rem;
+            color: #666;
+            margin-top: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
         /* Footer */
         footer {
             text-align: center;
@@ -967,8 +1033,8 @@
                             <div class="stat-label">Posts</div>
                         </div>
                         <div class="stat-item">
-                            <div class="stat-number" id="onlineAgora">0</div>
-                            <div class="stat-label">Online</div>
+                            <div class="stat-number" id="totalTarefas">0</div>
+                            <div class="stat-label">Tarefas</div>
                         </div>
                     </div>
 
@@ -979,7 +1045,7 @@
                                 <h3><i class="fas fa-pen"></i> Criar Postagem</h3>
                             </div>
                             <div style="display: flex; gap: 1rem; margin-bottom: 1rem;">
-                                <img src="" alt="" id="currentUserAvatar" style="width: 50px; height: 50px; border-radius: 50%; background: #667eea; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">
+                                <div id="currentUserAvatar" style="width: 50px; height: 50px; border-radius: 50%; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;"></div>
                                 <div style="flex: 1;">
                                     <textarea id="newPostContent" placeholder="O que você quer compartilhar com a turma?" style="width: 100%; padding: 1rem; border: 2px solid #e0e0e0; border-radius: 12px; font-family: 'Poppins', sans-serif; resize: none;" rows="3"></textarea>
                                     <button onclick="createPost()" style="margin-top: 0.5rem; padding: 0.5rem 2rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 500;">
@@ -1001,27 +1067,24 @@
                         <button class="filter-btn active" onclick="filterTasks('all')">Todas</button>
                         <button class="filter-btn" onclick="filterTasks('pending')">Pendentes</button>
                         <button class="filter-btn" onclick="filterTasks('completed')">Concluídas</button>
+                        <button class="filter-btn" onclick="filterTasks('mine')">Minhas</button>
                     </div>
 
-                    <!-- Criar Nova Tarefa (só aparece se for admin) -->
-                    <div id="adminTaskSection" style="display: none; margin-bottom: 2rem;">
-                        <div class="card">
-                            <div class="card-header">
-                                <h3><i class="fas fa-plus-circle"></i> Nova Tarefa</h3>
-                            </div>
-                            <div style="display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
-                                <input type="text" id="taskTitle" placeholder="Título da tarefa" style="padding: 0.8rem; border: 2px solid #e0e0e0; border-radius: 8px;">
-                                <input type="text" id="taskDesc" placeholder="Descrição" style="padding: 0.8rem; border: 2px solid #e0e0e0; border-radius: 8px;">
-                                <input type="date" id="taskDate" style="padding: 0.8rem; border: 2px solid #e0e0e0; border-radius: 8px;">
-                                <select id="taskPriority" style="padding: 0.8rem; border: 2px solid #e0e0e0; border-radius: 8px;">
-                                    <option value="high">Alta</option>
-                                    <option value="medium">Média</option>
-                                    <option value="low">Baixa</option>
-                                </select>
-                                <button onclick="createTask()" style="padding: 0.8rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 8px; cursor: pointer;">
-                                    <i class="fas fa-plus"></i> Adicionar
-                                </button>
-                            </div>
+                    <!-- Criar Nova Tarefa (TODO MUNDO PODE CRIAR) -->
+                    <div class="form-container">
+                        <h3 style="margin-bottom: 1rem;"><i class="fas fa-plus-circle" style="color: #667eea;"></i> Adicionar Nova Tarefa</h3>
+                        <div class="form-grid">
+                            <input type="text" id="taskTitle" class="form-input" placeholder="Título da tarefa">
+                            <input type="text" id="taskDesc" class="form-input" placeholder="Descrição">
+                            <input type="date" id="taskDate" class="form-input">
+                            <select id="taskPriority" class="form-input">
+                                <option value="high">Alta Prioridade</option>
+                                <option value="medium" selected>Média Prioridade</option>
+                                <option value="low">Baixa Prioridade</option>
+                            </select>
+                            <button onclick="createTask()" class="btn-primary">
+                                <i class="fas fa-plus"></i> Adicionar Tarefa
+                            </button>
                         </div>
                     </div>
 
@@ -1032,21 +1095,17 @@
 
                 <!-- Aba Provas -->
                 <div id="contentProvas" class="tab-pane">
-                    <!-- Criar Nova Prova (só aparece se for admin) -->
-                    <div id="adminExamSection" style="display: none; margin-bottom: 2rem;">
-                        <div class="card">
-                            <div class="card-header">
-                                <h3><i class="fas fa-plus-circle"></i> Nova Prova</h3>
-                            </div>
-                            <div style="display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
-                                <input type="text" id="examTitle" placeholder="Matéria" style="padding: 0.8rem; border: 2px solid #e0e0e0; border-radius: 8px;">
-                                <input type="text" id="examTopic" placeholder="Assunto" style="padding: 0.8rem; border: 2px solid #e0e0e0; border-radius: 8px;">
-                                <input type="date" id="examDate" style="padding: 0.8rem; border: 2px solid #e0e0e0; border-radius: 8px;">
-                                <input type="time" id="examTime" style="padding: 0.8rem; border: 2px solid #e0e0e0; border-radius: 8px;">
-                                <button onclick="createExam()" style="padding: 0.8rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 8px; cursor: pointer;">
-                                    <i class="fas fa-plus"></i> Adicionar
-                                </button>
-                            </div>
+                    <!-- Criar Nova Prova (TODO MUNDO PODE CRIAR) -->
+                    <div class="form-container">
+                        <h3 style="margin-bottom: 1rem;"><i class="fas fa-plus-circle" style="color: #667eea;"></i> Adicionar Nova Prova</h3>
+                        <div class="form-grid">
+                            <input type="text" id="examSubject" class="form-input" placeholder="Matéria (ex: Matemática)">
+                            <input type="text" id="examTopic" class="form-input" placeholder="Assunto (ex: Trigonometria)">
+                            <input type="date" id="examDate" class="form-input">
+                            <input type="time" id="examTime" class="form-input" value="13:00">
+                            <button onclick="createExam()" class="btn-primary">
+                                <i class="fas fa-plus"></i> Adicionar Prova
+                            </button>
                         </div>
                     </div>
 
@@ -1070,9 +1129,6 @@
         let tasks = JSON.parse(localStorage.getItem('tasks_7a_2026')) || [];
         let exams = JSON.parse(localStorage.getItem('exams_7a_2026')) || [];
         let currentUser = JSON.parse(localStorage.getItem('currentUser_7a_2026')) || null;
-
-        // Admin padrão (primeiro usuário se torna admin)
-        const ADMIN_PASSWORD = "admin7a2026";
 
         // Verificar se já está logado
         if (currentUser) {
@@ -1121,14 +1177,10 @@
                 return;
             }
             
-            // Verificar se é o primeiro usuário (vira admin)
-            const isFirst = users.length === 0;
-            
             const newUser = {
                 id: Date.now(),
                 name: name,
                 password: password,
-                isAdmin: isFirst, // Primeiro usuário é admin
                 avatar: name.substring(0, 2).toUpperCase(),
                 createdAt: new Date().toISOString()
             };
@@ -1179,13 +1231,8 @@
             
             // Atualizar saudação
             document.getElementById('welcomeMessage').textContent = `Bem-vindo, ${currentUser.name}! 👋`;
-            document.getElementById('avatarInitials').textContent = currentUser.name.substring(0, 2).toUpperCase();
-            
-            // Mostrar seções de admin
-            if (currentUser.isAdmin) {
-                document.getElementById('adminTaskSection').style.display = 'block';
-                document.getElementById('adminExamSection').style.display = 'block';
-            }
+            document.getElementById('avatarInitials').textContent = currentUser.avatar;
+            document.getElementById('currentUserAvatar').textContent = currentUser.avatar;
             
             // Carregar dados
             loadPosts();
@@ -1237,6 +1284,15 @@
             loadPosts();
         }
 
+        function deletePost(postId) {
+            if (confirm('Tem certeza que deseja excluir esta postagem?')) {
+                posts = posts.filter(p => p.id !== postId);
+                localStorage.setItem('posts_7a_2026', JSON.stringify(posts));
+                loadPosts();
+                updateStats();
+            }
+        }
+
         function loadPosts() {
             const feed = document.getElementById('postsFeed');
             if (posts.length === 0) {
@@ -1259,6 +1315,11 @@
                             <h4>${post.authorName}</h4>
                             <span>${post.timestamp}</span>
                         </div>
+                        ${post.authorId === currentUser.id ? `
+                            <button onclick="deletePost(${post.id})" style="margin-left: auto; background: none; border: none; color: #f44336; cursor: pointer;">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        ` : ''}
                     </div>
                     <div class="post-content">
                         <p>${post.content}</p>
@@ -1277,7 +1338,7 @@
             `).join('');
         }
 
-        // ========== FUNÇÕES DE TAREFAS ==========
+        // ========== FUNÇÕES DE TAREFAS (TODO MUNDO PODE CRIAR) ==========
         function createTask() {
             const title = document.getElementById('taskTitle').value.trim();
             const desc = document.getElementById('taskDesc').value.trim();
@@ -1297,6 +1358,7 @@
                 priority: priority,
                 completed: false,
                 createdBy: currentUser.id,
+                createdByName: currentUser.name,
                 createdAt: new Date().toISOString()
             };
             
@@ -1307,6 +1369,7 @@
             document.getElementById('taskDesc').value = '';
             document.getElementById('taskDate').value = '';
             loadTasks();
+            updateStats();
         }
 
         function toggleTask(taskId) {
@@ -1314,7 +1377,16 @@
             if (task) {
                 task.completed = !task.completed;
                 localStorage.setItem('tasks_7a_2026', JSON.stringify(tasks));
-                loadTasks();
+                loadTasks(document.querySelector('.filter-btn.active').textContent.toLowerCase());
+            }
+        }
+
+        function deleteTask(taskId) {
+            if (confirm('Tem certeza que deseja excluir esta tarefa?')) {
+                tasks = tasks.filter(t => t.id !== taskId);
+                localStorage.setItem('tasks_7a_2026', JSON.stringify(tasks));
+                loadTasks(document.querySelector('.filter-btn.active').textContent.toLowerCase());
+                updateStats();
             }
         }
 
@@ -1332,7 +1404,12 @@
                 filteredTasks = tasks.filter(t => !t.completed);
             } else if (filter === 'completed') {
                 filteredTasks = tasks.filter(t => t.completed);
+            } else if (filter === 'mine') {
+                filteredTasks = tasks.filter(t => t.createdBy === currentUser.id);
             }
+            
+            // Ordenar por data
+            filteredTasks.sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate));
             
             if (filteredTasks.length === 0) {
                 list.innerHTML = `
@@ -1344,112 +1421,78 @@
                 return;
             }
             
-            // Separar por data
-            const today = new Date().toISOString().split('T')[0];
-            const tasksToday = filteredTasks.filter(t => t.dueDate === today);
-            const tasksFuture = filteredTasks.filter(t => t.dueDate > today);
-            const tasksPast = filteredTasks.filter(t => t.dueDate < today && !t.completed);
-            
-            list.innerHTML = '';
-            
-            if (tasksToday.length > 0) {
-                list.innerHTML += `
-                    <div class="card">
-                        <div class="card-header">
-                            <h3><i class="fas fa-clock" style="color: #667eea;"></i> Para Hoje</h3>
-                            <span class="card-badge">${tasksToday.length} tarefas</span>
-                        </div>
-                        ${tasksToday.map(task => `
-                            <div class="task-item">
-                                <div class="task-check ${task.completed ? 'checked' : ''}" onclick="toggleTask(${task.id})"></div>
-                                <div class="task-info">
-                                    <h4>${task.title}</h4>
-                                    <p>${task.description}</p>
-                                </div>
-                                <span class="task-priority priority-${task.priority}">${task.priority === 'high' ? 'Alta' : task.priority === 'medium' ? 'Média' : 'Baixa'}</span>
-                            </div>
-                        `).join('')}
+            list.innerHTML = `
+                <div class="card" style="grid-column: 1 / -1;">
+                    <div class="card-header">
+                        <h3><i class="fas fa-list"></i> Lista de Tarefas</h3>
+                        <span class="card-badge">${filteredTasks.length} tarefas</span>
                     </div>
-                `;
-            }
-            
-            if (tasksFuture.length > 0) {
-                list.innerHTML += `
-                    <div class="card">
-                        <div class="card-header">
-                            <h3><i class="fas fa-calendar-alt" style="color: #667eea;"></i> Próximas</h3>
-                            <span class="card-badge">${tasksFuture.length} tarefas</span>
-                        </div>
-                        ${tasksFuture.map(task => `
-                            <div class="task-item">
-                                <div class="task-check ${task.completed ? 'checked' : ''}" onclick="toggleTask(${task.id})"></div>
-                                <div class="task-info">
-                                    <h4>${task.title}</h4>
-                                    <p>${task.description}</p>
-                                </div>
+                    ${filteredTasks.map(task => `
+                        <div class="task-item">
+                            <div class="task-check ${task.completed ? 'checked' : ''}" onclick="toggleTask(${task.id})"></div>
+                            <div class="task-info">
+                                <h4>${task.title} <span style="font-size: 0.8rem; color: #666; font-weight: normal;">(por ${task.createdByName})</span></h4>
+                                <p>${task.description}</p>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 1rem;">
                                 <div class="task-deadline">
                                     <i class="far fa-calendar"></i> ${new Date(task.dueDate).toLocaleDateString()}
                                 </div>
+                                <span class="task-priority priority-${task.priority}">
+                                    ${task.priority === 'high' ? 'Alta' : task.priority === 'medium' ? 'Média' : 'Baixa'}
+                                </span>
+                                ${task.createdBy === currentUser.id ? `
+                                    <button onclick="deleteTask(${task.id})" style="background: none; border: none; color: #f44336; cursor: pointer;">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                ` : ''}
                             </div>
-                        `).join('')}
-                    </div>
-                `;
-            }
-            
-            if (tasksPast.length > 0) {
-                list.innerHTML += `
-                    <div class="card">
-                        <div class="card-header">
-                            <h3><i class="fas fa-exclamation-triangle" style="color: #f44336;"></i> Atrasadas</h3>
-                            <span class="card-badge">${tasksPast.length} tarefas</span>
                         </div>
-                        ${tasksPast.map(task => `
-                            <div class="task-item">
-                                <div class="task-check ${task.completed ? 'checked' : ''}" onclick="toggleTask(${task.id})"></div>
-                                <div class="task-info">
-                                    <h4>${task.title}</h4>
-                                    <p>${task.description}</p>
-                                </div>
-                                <div class="task-deadline" style="color: #f44336;">
-                                    <i class="fas fa-exclamation"></i> Atrasada
-                                </div>
-                            </div>
-                        `).join('')}
-                    </div>
-                `;
-            }
+                    `).join('')}
+                </div>
+            `;
         }
 
-        // ========== FUNÇÕES DE PROVAS ==========
+        // ========== FUNÇÕES DE PROVAS (TODO MUNDO PODE CRIAR) ==========
         function createExam() {
-            const title = document.getElementById('examTitle').value.trim();
+            const subject = document.getElementById('examSubject').value.trim();
             const topic = document.getElementById('examTopic').value.trim();
             const date = document.getElementById('examDate').value;
             const time = document.getElementById('examTime').value;
             
-            if (!title || !topic || !date || !time) {
+            if (!subject || !topic || !date || !time) {
                 alert('Preencha todos os campos!');
                 return;
             }
             
             const newExam = {
                 id: Date.now(),
-                subject: title,
+                subject: subject,
                 topic: topic,
                 date: date,
                 time: time,
                 createdBy: currentUser.id,
+                createdByName: currentUser.name,
                 createdAt: new Date().toISOString()
             };
             
             exams.push(newExam);
             localStorage.setItem('exams_7a_2026', JSON.stringify(exams));
             
-            document.getElementById('examTitle').value = '';
+            document.getElementById('examSubject').value = '';
             document.getElementById('examTopic').value = '';
             document.getElementById('examDate').value = '';
-            document.getElementById('examTime').value = '';
+            document.getElementById('examTime').value = '13:00';
             loadExams();
+            updateStats();
+        }
+
+        function deleteExam(examId) {
+            if (confirm('Tem certeza que deseja excluir esta prova?')) {
+                exams = exams.filter(e => e.id !== examId);
+                localStorage.setItem('exams_7a_2026', JSON.stringify(exams));
+                loadExams();
+            }
         }
 
         function loadExams() {
@@ -1485,31 +1528,24 @@
                                 <span>Sala 34</span>
                             </div>
                         </div>
-                        ${currentUser.isAdmin ? `
-                            <div style="margin-top: 1rem; text-align: right;">
-                                <button onclick="deleteExam(${exam.id})" style="padding: 0.3rem 1rem; background: #f44336; color: white; border: none; border-radius: 5px; cursor: pointer;">
-                                    <i class="fas fa-trash"></i>
+                        <div class="exam-author">
+                            <i class="fas fa-user"></i> Adicionado por: ${exam.createdByName}
+                            ${exam.createdBy === currentUser.id ? `
+                                <button onclick="deleteExam(${exam.id})" style="margin-left: auto; background: none; border: none; color: #f44336; cursor: pointer;">
+                                    <i class="fas fa-trash"></i> Excluir
                                 </button>
-                            </div>
-                        ` : ''}
+                            ` : ''}
+                        </div>
                     </div>
                 </div>
             `).join('');
-        }
-
-        function deleteExam(examId) {
-            if (confirm('Tem certeza que deseja excluir esta prova?')) {
-                exams = exams.filter(e => e.id !== examId);
-                localStorage.setItem('exams_7a_2026', JSON.stringify(exams));
-                loadExams();
-            }
         }
 
         // ========== ESTATÍSTICAS ==========
         function updateStats() {
             document.getElementById('totalAlunos').textContent = users.length;
             document.getElementById('totalPosts').textContent = posts.length;
-            document.getElementById('onlineAgora').textContent = Math.floor(Math.random() * users.length) || 1;
+            document.getElementById('totalTarefas').textContent = tasks.length;
         }
 
         // ========== INICIALIZAÇÃO ==========
@@ -1518,20 +1554,6 @@
         document.querySelector('.day').textContent = today.getDate();
         const months = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
         document.querySelector('.month').textContent = months[today.getMonth()] + ' 2026';
-
-        // Criar admin padrão se não houver usuários
-        if (users.length === 0) {
-            const adminUser = {
-                id: 1,
-                name: 'Professor',
-                password: ADMIN_PASSWORD,
-                isAdmin: true,
-                avatar: 'PR',
-                createdAt: new Date().toISOString()
-            };
-            users.push(adminUser);
-            localStorage.setItem('users_7a_2026', JSON.stringify(users));
-        }
 
         // Funções de navegação
         function showMainTab(tab) {
@@ -1549,9 +1571,11 @@
             } else if (tab === 'tarefas') {
                 document.querySelectorAll('.tab-btn')[1].classList.add('active');
                 document.getElementById('contentTarefas').classList.add('active');
+                loadTasks();
             } else {
                 document.querySelectorAll('.tab-btn')[2].classList.add('active');
                 document.getElementById('contentProvas').classList.add('active');
+                loadExams();
             }
         }
 
