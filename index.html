@@ -1,0 +1,1110 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>7°A 2026 - Nossa Turma</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        /* Tela de Login */
+        .login-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+        .login-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 450px;
+            overflow: hidden;
+        }
+        .login-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 2rem;
+            text-align: center;
+            color: white;
+        }
+        .login-header i { font-size: 3rem; margin-bottom: 1rem; }
+        .login-header h1 { font-size: 2rem; margin-bottom: 0.5rem; }
+        .login-tabs {
+            display: flex;
+            background: #f8f9fa;
+            padding: 1rem 1rem 0;
+            gap: 0.5rem;
+        }
+        .login-tab {
+            flex: 1;
+            padding: 1rem;
+            border: none;
+            background: none;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #666;
+            cursor: pointer;
+            border-radius: 12px 12px 0 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .login-tab:hover { color: #667eea; background: rgba(102, 126, 234, 0.1); }
+        .login-tab.active {
+            color: #667eea;
+            background: white;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+        }
+        .login-forms { padding: 2rem; background: white; }
+        .login-form { display: none; }
+        .login-form.active { display: block; }
+        .form-group { margin-bottom: 1.5rem; }
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #333;
+            font-weight: 500;
+        }
+        .form-group label i { color: #667eea; margin-right: 8px; }
+        .input-wrapper {
+            position: relative;
+        }
+        .input-wrapper i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+        }
+        .input-wrapper input {
+            width: 100%;
+            padding: 12px 15px 12px 45px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-family: 'Poppins', sans-serif;
+        }
+        .input-wrapper input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        .login-btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+        .login-footer {
+            text-align: center;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #e0e0e0;
+            color: #666;
+        }
+        .login-footer a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        /* Header */
+        header {
+            background: white;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            display: none;
+        }
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .logo i { font-size: 2rem; color: #667eea; }
+        .logo span {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        .nav-links a:hover,
+        .nav-links a.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+        .logout-btn {
+            background: none;
+            border: none;
+            color: #666;
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+        .logout-btn:hover { color: #f44336; }
+
+        /* Conteúdo Principal */
+        .main-container {
+            max-width: 1400px;
+            margin: 100px auto 2rem;
+            padding: 0 2rem;
+            display: none;
+        }
+        .welcome-section {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .welcome-text h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .date-badge {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            text-align: center;
+        }
+        .date-badge .day { font-size: 2rem; font-weight: 700; }
+        .date-badge .month { font-size: 1rem; opacity: 0.9; }
+
+        /* Abas */
+        .tabs-container {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+        .tab-buttons {
+            display: flex;
+            background: #f8f9fa;
+            padding: 1rem 1rem 0;
+            gap: 1rem;
+            border-bottom: 2px solid #e0e0e0;
+        }
+        .tab-btn {
+            padding: 1rem 2rem;
+            border: none;
+            background: none;
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: #666;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-radius: 12px 12px 0 0;
+        }
+        .tab-btn:hover { color: #667eea; background: rgba(102, 126, 234, 0.1); }
+        .tab-btn.active {
+            color: #667eea;
+            background: white;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+        }
+        .tab-content { padding: 2rem; }
+        .tab-pane { display: none; }
+        .tab-pane.active { display: block; }
+
+        /* Cards */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            border: 1px solid #f0f0f0;
+        }
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        .card-header h3 { font-size: 1.2rem; color: #333; }
+        .card-badge {
+            background: #e8f0fe;
+            color: #667eea;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        /* Formulários */
+        .form-container {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .form-grid {
+            display: grid;
+            gap: 1rem;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        }
+        .form-input {
+            padding: 0.8rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+            width: 100%;
+        }
+        .form-input:focus { outline: none; border-color: #667eea; }
+        .btn-primary {
+            padding: 0.8rem 1.5rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        /* Estatísticas */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .stat-item {
+            text-align: center;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 12px;
+        }
+        .stat-number {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #667eea;
+        }
+
+        /* Posts */
+        .post {
+            border-bottom: 1px solid #e0e0e0;
+            padding: 1rem 0;
+        }
+        .post-author {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 0.5rem;
+        }
+        .post-author-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+        .post-author-info h4 { font-size: 1rem; }
+        .post-author-info span { font-size: 0.8rem; color: #999; }
+        .post-content { margin-left: 50px; }
+        .post-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 0.5rem;
+        }
+        .post-actions button {
+            border: none;
+            background: none;
+            color: #999;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* Tarefas */
+        .task-filters {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        .filter-btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            background: #f8f9fa;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        .filter-btn.active {
+            background: #667eea;
+            color: white;
+        }
+        .task-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .task-check {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #667eea;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        .task-check.checked {
+            background: #667eea;
+            position: relative;
+        }
+        .task-check.checked::after {
+            content: '\f00c';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            color: white;
+            font-size: 12px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .task-info { flex: 1; }
+        .task-priority {
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        .priority-high { background: #fee; color: #f44336; }
+        .priority-medium { background: #fff3e0; color: #ff9800; }
+        .priority-low { background: #e8f5e9; color: #4caf50; }
+        .task-deadline {
+            color: #f44336;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* Provas */
+        .exams-timeline {
+            position: relative;
+            padding: 2rem 0;
+        }
+        .exams-timeline::before {
+            content: '';
+            position: absolute;
+            left: 20px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .exam-item {
+            position: relative;
+            padding-left: 50px;
+            margin-bottom: 2rem;
+        }
+        .exam-item::before {
+            content: '';
+            position: absolute;
+            left: 12px;
+            top: 0;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: white;
+            border: 3px solid #667eea;
+        }
+        .exam-card {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+        .exam-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        .exam-date {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 0.3rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+        .exam-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        .exam-info-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #666;
+        }
+        .exam-info-item i { color: #667eea; }
+        .exam-author {
+            font-size: 0.8rem;
+            color: #666;
+            margin-top: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: white;
+            margin-top: 3rem;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Tela de Login -->
+    <div id="loginContainer" class="login-container">
+        <div class="login-card">
+            <div class="login-header">
+                <i class="fas fa-graduation-cap"></i>
+                <h1>7°A 2026</h1>
+                <p>Entre com sua conta</p>
+            </div>
+            <div class="login-tabs">
+                <button class="login-tab active" onclick="showLoginTab('login')">
+                    <i class="fas fa-sign-in-alt"></i> Login
+                </button>
+                <button class="login-tab" onclick="showLoginTab('register')">
+                    <i class="fas fa-user-plus"></i> Registro
+                </button>
+            </div>
+            <div class="login-forms">
+                <!-- Login -->
+                <div id="loginForm" class="login-form active">
+                    <form onsubmit="handleLogin(event)">
+                        <div class="form-group">
+                            <label><i class="fas fa-user"></i> Nome</label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-user"></i>
+                                <input type="text" id="loginName" placeholder="Seu nome" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-lock"></i> Senha</label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-key"></i>
+                                <input type="password" id="loginPassword" placeholder="Sua senha" required>
+                            </div>
+                        </div>
+                        <button type="submit" class="login-btn">
+                            <i class="fas fa-sign-in-alt"></i> Entrar
+                        </button>
+                        <div class="login-footer">
+                            Não tem conta? <a onclick="showLoginTab('register')">Registre-se</a>
+                        </div>
+                    </form>
+                </div>
+                <!-- Registro -->
+                <div id="registerForm" class="login-form">
+                    <form onsubmit="handleRegister(event)">
+                        <div class="form-group">
+                            <label><i class="fas fa-user"></i> Nome</label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-user"></i>
+                                <input type="text" id="registerName" placeholder="Seu nome" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-lock"></i> Senha</label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-key"></i>
+                                <input type="password" id="registerPassword" placeholder="Crie uma senha" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-lock"></i> Confirmar Senha</label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-key"></i>
+                                <input type="password" id="confirmPassword" placeholder="Confirme a senha" required>
+                            </div>
+                        </div>
+                        <button type="submit" class="login-btn">
+                            <i class="fas fa-user-plus"></i> Registrar
+                        </button>
+                        <div class="login-footer">
+                            Já tem conta? <a onclick="showLoginTab('login')">Faça login</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header id="mainHeader">
+        <nav>
+            <div class="logo">
+                <i class="fas fa-graduation-cap"></i>
+                <span>7°A 2026</span>
+            </div>
+            <ul class="nav-links">
+                <li><a class="active" onclick="showTab('comunidade')"><i class="fas fa-users"></i> Comunidade</a></li>
+                <li><a onclick="showTab('tarefas')"><i class="fas fa-tasks"></i> Tarefas</a></li>
+                <li><a onclick="showTab('provas')"><i class="fas fa-pencil-alt"></i> Provas</a></li>
+            </ul>
+            <div class="user-info">
+                <div class="user-avatar" id="userAvatar">?</div>
+                <button class="logout-btn" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Conteúdo Principal -->
+    <main id="mainContent" class="main-container">
+        <section class="welcome-section">
+            <div class="welcome-text">
+                <h1 id="welcomeMessage">Bem-vindo, 7°A 2026! 👋</h1>
+                <p><i class="fas fa-map-marker-alt" style="color: #667eea;"></i> Nossa turma</p>
+            </div>
+            <div class="date-badge">
+                <div class="day" id="currentDay">1</div>
+                <div class="month" id="currentMonth">Março 2026</div>
+            </div>
+        </section>
+
+        <div class="tabs-container">
+            <div class="tab-buttons">
+                <button class="tab-btn active" onclick="showContentTab('comunidade')">
+                    <i class="fas fa-users"></i> Comunidade
+                </button>
+                <button class="tab-btn" onclick="showContentTab('tarefas')">
+                    <i class="fas fa-tasks"></i> Tarefas
+                </button>
+                <button class="tab-btn" onclick="showContentTab('provas')">
+                    <i class="fas fa-pencil-alt"></i> Provas
+                </button>
+            </div>
+
+            <div class="tab-content">
+                <!-- Comunidade -->
+                <div id="tabComunidade" class="tab-pane active">
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <div class="stat-number" id="totalUsers">0</div>
+                            <div>Alunos</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number" id="totalPosts">0</div>
+                            <div>Posts</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number" id="totalTasks">0</div>
+                            <div>Tarefas</div>
+                        </div>
+                    </div>
+
+                    <!-- Criar Post -->
+                    <div class="card" style="margin-bottom: 2rem;">
+                        <div class="card-header">
+                            <h3><i class="fas fa-pen" style="color: #667eea;"></i> Criar Postagem</h3>
+                        </div>
+                        <div style="display: flex; gap: 1rem;">
+                            <div class="post-author-avatar" id="postAvatar">?</div>
+                            <div style="flex: 1;">
+                                <textarea id="postContent" placeholder="O que você quer compartilhar?" style="width: 100%; padding: 1rem; border: 2px solid #e0e0e0; border-radius: 12px; font-family: 'Poppins', sans-serif; resize: none;" rows="3"></textarea>
+                                <button onclick="createPost()" class="btn-primary" style="margin-top: 0.5rem;">
+                                    <i class="fas fa-paper-plane"></i> Publicar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Lista de Posts -->
+                    <div id="postsList" class="cards-grid"></div>
+                </div>
+
+                <!-- Tarefas -->
+                <div id="tabTarefas" class="tab-pane">
+                    <div class="task-filters">
+                        <button class="filter-btn active" onclick="filterTasks('all')">Todas</button>
+                        <button class="filter-btn" onclick="filterTasks('pending')">Pendentes</button>
+                        <button class="filter-btn" onclick="filterTasks('completed')">Concluídas</button>
+                        <button class="filter-btn" onclick="filterTasks('mine')">Minhas</button>
+                    </div>
+
+                    <!-- Criar Tarefa -->
+                    <div class="form-container">
+                        <h3 style="margin-bottom: 1rem;"><i class="fas fa-plus-circle" style="color: #667eea;"></i> Nova Tarefa</h3>
+                        <div class="form-grid">
+                            <input type="text" id="taskTitle" class="form-input" placeholder="Título">
+                            <input type="text" id="taskDesc" class="form-input" placeholder="Descrição">
+                            <input type="date" id="taskDate" class="form-input">
+                            <select id="taskPriority" class="form-input">
+                                <option value="high">Alta</option>
+                                <option value="medium" selected>Média</option>
+                                <option value="low">Baixa</option>
+                            </select>
+                            <button onclick="createTask()" class="btn-primary">
+                                <i class="fas fa-plus"></i> Adicionar
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Lista de Tarefas -->
+                    <div id="tasksList" class="cards-grid"></div>
+                </div>
+
+                <!-- Provas -->
+                <div id="tabProvas" class="tab-pane">
+                    <!-- Criar Prova -->
+                    <div class="form-container">
+                        <h3 style="margin-bottom: 1rem;"><i class="fas fa-plus-circle" style="color: #667eea;"></i> Nova Prova</h3>
+                        <div class="form-grid">
+                            <input type="text" id="examSubject" class="form-input" placeholder="Matéria">
+                            <input type="text" id="examTopic" class="form-input" placeholder="Assunto">
+                            <input type="date" id="examDate" class="form-input">
+                            <input type="time" id="examTime" class="form-input" value="13:00">
+                            <button onclick="createExam()" class="btn-primary">
+                                <i class="fas fa-plus"></i> Adicionar
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Lista de Provas -->
+                    <div class="exams-timeline" id="examsList"></div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer id="mainFooter">
+        <p>© 2026 7°A - Feito com <i class="fas fa-heart" style="color: #ff6b6b;"></i> pela turma</p>
+    </footer>
+
+    <script>
+        // Dados
+        let users = JSON.parse(localStorage.getItem('users7a')) || [];
+        let posts = JSON.parse(localStorage.getItem('posts7a')) || [];
+        let tasks = JSON.parse(localStorage.getItem('tasks7a')) || [];
+        let exams = JSON.parse(localStorage.getItem('exams7a')) || [];
+        let currentUser = JSON.parse(localStorage.getItem('currentUser7a')) || null;
+
+        // Data atual
+        const today = new Date();
+        document.getElementById('currentDay').textContent = today.getDate();
+        const months = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+        document.getElementById('currentMonth').textContent = months[today.getMonth()] + ' 2026';
+
+        if (currentUser) showMainContent();
+
+        // Login
+        function showLoginTab(tab) {
+            document.querySelectorAll('.login-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.login-form').forEach(f => f.classList.remove('active'));
+            if (tab === 'login') {
+                document.querySelectorAll('.login-tab')[0].classList.add('active');
+                document.getElementById('loginForm').classList.add('active');
+            } else {
+                document.querySelectorAll('.login-tab')[1].classList.add('active');
+                document.getElementById('registerForm').classList.add('active');
+            }
+        }
+
+        function handleRegister(e) {
+            e.preventDefault();
+            const name = document.getElementById('registerName').value.trim();
+            const pass = document.getElementById('registerPassword').value;
+            const confirm = document.getElementById('confirmPassword').value;
+            
+            if (!name || !pass || !confirm) return alert('Preencha tudo!');
+            if (pass !== confirm) return alert('Senhas não conferem!');
+            if (pass.length < 3) return alert('Senha muito curta!');
+            if (users.some(u => u.name.toLowerCase() === name.toLowerCase())) 
+                return alert('Nome já existe!');
+            
+            users.push({ id: Date.now(), name, password: pass, avatar: name.substring(0,2).toUpperCase() });
+            localStorage.setItem('users7a', JSON.stringify(users));
+            alert('Registrado! Faça login.');
+            showLoginTab('login');
+        }
+
+        function handleLogin(e) {
+            e.preventDefault();
+            const name = document.getElementById('loginName').value.trim();
+            const pass = document.getElementById('loginPassword').value;
+            const user = users.find(u => u.name === name && u.password === pass);
+            
+            if (user) {
+                currentUser = user;
+                localStorage.setItem('currentUser7a', JSON.stringify(user));
+                showMainContent();
+            } else alert('Nome ou senha errados!');
+        }
+
+        function logout() {
+            currentUser = null;
+            localStorage.removeItem('currentUser7a');
+            document.getElementById('loginContainer').style.display = 'flex';
+            document.getElementById('mainHeader').style.display = 'none';
+            document.getElementById('mainContent').style.display = 'none';
+            document.getElementById('mainFooter').style.display = 'none';
+        }
+
+        function showMainContent() {
+            document.getElementById('loginContainer').style.display = 'none';
+            document.getElementById('mainHeader').style.display = 'block';
+            document.getElementById('mainContent').style.display = 'block';
+            document.getElementById('mainFooter').style.display = 'block';
+            
+            document.getElementById('welcomeMessage').textContent = `Bem-vindo, ${currentUser.name}! 👋`;
+            document.getElementById('userAvatar').textContent = currentUser.avatar;
+            document.getElementById('postAvatar').textContent = currentUser.avatar;
+            
+            updateStats();
+            loadPosts();
+            loadTasks();
+            loadExams();
+        }
+
+        // Navegação
+        function showTab(tab) {
+            document.querySelectorAll('.nav-links a').forEach(l => l.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+
+        function showContentTab(tab) {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+            
+            if (tab === 'comunidade') {
+                document.querySelectorAll('.tab-btn')[0].classList.add('active');
+                document.getElementById('tabComunidade').classList.add('active');
+                loadPosts();
+            } else if (tab === 'tarefas') {
+                document.querySelectorAll('.tab-btn')[1].classList.add('active');
+                document.getElementById('tabTarefas').classList.add('active');
+                loadTasks();
+            } else {
+                document.querySelectorAll('.tab-btn')[2].classList.add('active');
+                document.getElementById('tabProvas').classList.add('active');
+                loadExams();
+            }
+        }
+
+        // Posts
+        function createPost() {
+            const content = document.getElementById('postContent').value.trim();
+            if (!content) return alert('Escreva algo!');
+            
+            posts.unshift({
+                id: Date.now(),
+                authorId: currentUser.id,
+                authorName: currentUser.name,
+                authorAvatar: currentUser.avatar,
+                content,
+                likes: [],
+                comments: [],
+                time: new Date().toLocaleString()
+            });
+            
+            localStorage.setItem('posts7a', JSON.stringify(posts));
+            document.getElementById('postContent').value = '';
+            loadPosts();
+            updateStats();
+        }
+
+        function likePost(id) {
+            const post = posts.find(p => p.id === id);
+            if (!post) return;
+            
+            const idx = post.likes.indexOf(currentUser.id);
+            idx === -1 ? post.likes.push(currentUser.id) : post.likes.splice(idx, 1);
+            
+            localStorage.setItem('posts7a', JSON.stringify(posts));
+            loadPosts();
+        }
+
+        function deletePost(id) {
+            if (!confirm('Excluir post?')) return;
+            posts = posts.filter(p => p.id !== id);
+            localStorage.setItem('posts7a', JSON.stringify(posts));
+            loadPosts();
+            updateStats();
+        }
+
+        function loadPosts() {
+            const list = document.getElementById('postsList');
+            if (!posts.length) {
+                list.innerHTML = '<div class="card" style="grid-column:1/-1; text-align:center; padding:3rem;"><i class="fas fa-comments" style="font-size:3rem; color:#ccc;"></i><p style="color:#666;">Nenhum post ainda. Seja o primeiro!</p></div>';
+                return;
+            }
+            
+            list.innerHTML = posts.map(p => `
+                <div class="card">
+                    <div class="post-author">
+                        <div class="post-author-avatar">${p.authorAvatar}</div>
+                        <div class="post-author-info">
+                            <h4>${p.authorName}</h4>
+                            <span>${p.time}</span>
+                        </div>
+                        ${p.authorId === currentUser.id ? 
+                            `<button onclick="deletePost(${p.id})" style="margin-left:auto; background:none; border:none; color:#f44336; cursor:pointer;"><i class="fas fa-trash"></i></button>` : ''}
+                    </div>
+                    <div class="post-content">
+                        <p>${p.content}</p>
+                        <div class="post-actions">
+                            <button onclick="likePost(${p.id})">
+                                <i class="${p.likes.includes(currentUser.id) ? 'fas' : 'far'} fa-heart" style="color:${p.likes.includes(currentUser.id) ? '#f44336' : '#999'};"></i> ${p.likes.length}
+                            </button>
+                            <button><i class="far fa-comment"></i> ${p.comments.length}</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Tarefas
+        function createTask() {
+            const title = document.getElementById('taskTitle').value.trim();
+            const desc = document.getElementById('taskDesc').value.trim();
+            const date = document.getElementById('taskDate').value;
+            const priority = document.getElementById('taskPriority').value;
+            
+            if (!title || !desc || !date) return alert('Preencha tudo!');
+            
+            tasks.push({
+                id: Date.now(),
+                title, desc, date, priority,
+                completed: false,
+                createdBy: currentUser.id,
+                createdByName: currentUser.name
+            });
+            
+            localStorage.setItem('tasks7a', JSON.stringify(tasks));
+            document.getElementById('taskTitle').value = '';
+            document.getElementById('taskDesc').value = '';
+            document.getElementById('taskDate').value = '';
+            loadTasks();
+            updateStats();
+        }
+
+        function toggleTask(id) {
+            const task = tasks.find(t => t.id === id);
+            if (task) {
+                task.completed = !task.completed;
+                localStorage.setItem('tasks7a', JSON.stringify(tasks));
+                loadTasks(document.querySelector('.filter-btn.active').textContent.toLowerCase());
+            }
+        }
+
+        function deleteTask(id) {
+            if (!confirm('Excluir tarefa?')) return;
+            tasks = tasks.filter(t => t.id !== id);
+            localStorage.setItem('tasks7a', JSON.stringify(tasks));
+            loadTasks();
+            updateStats();
+        }
+
+        function filterTasks(filter) {
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            event.target.classList.add('active');
+            loadTasks(filter);
+        }
+
+        function loadTasks(filter = 'all') {
+            const list = document.getElementById('tasksList');
+            let filtered = tasks;
+            
+            if (filter === 'pending') filtered = tasks.filter(t => !t.completed);
+            else if (filter === 'completed') filtered = tasks.filter(t => t.completed);
+            else if (filter === 'mine') filtered = tasks.filter(t => t.createdBy === currentUser.id);
+            
+            filtered.sort((a,b) => new Date(a.date) - new Date(b.date));
+            
+            if (!filtered.length) {
+                list.innerHTML = '<div class="card" style="grid-column:1/-1; text-align:center; padding:3rem;"><i class="fas fa-tasks" style="font-size:3rem; color:#ccc;"></i><p style="color:#666;">Nenhuma tarefa.</p></div>';
+                return;
+            }
+            
+            list.innerHTML = `
+                <div class="card" style="grid-column:1/-1;">
+                    <div class="card-header">
+                        <h3><i class="fas fa-list"></i> Lista de Tarefas</h3>
+                        <span class="card-badge">${filtered.length} tarefas</span>
+                    </div>
+                    ${filtered.map(t => `
+                        <div class="task-item">
+                            <div class="task-check ${t.completed ? 'checked' : ''}" onclick="toggleTask(${t.id})"></div>
+                            <div class="task-info">
+                                <h4>${t.title} <span style="font-size:0.8rem; color:#666;">(por ${t.createdByName})</span></h4>
+                                <p>${t.desc}</p>
+                            </div>
+                            <div style="display:flex; align-items:center; gap:1rem;">
+                                <div class="task-deadline"><i class="far fa-calendar"></i> ${new Date(t.date).toLocaleDateString()}</div>
+                                <span class="task-priority priority-${t.priority}">
+                                    ${t.priority === 'high' ? 'Alta' : t.priority === 'medium' ? 'Média' : 'Baixa'}
+                                </span>
+                                ${t.createdBy === currentUser.id ? 
+                                    `<button onclick="deleteTask(${t.id})" style="background:none; border:none; color:#f44336; cursor:pointer;"><i class="fas fa-trash"></i></button>` : ''}
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        // Provas
+        function createExam() {
+            const subject = document.getElementById('examSubject').value.trim();
+            const topic = document.getElementById('examTopic').value.trim();
+            const date = document.getElementById('examDate').value;
+            const time = document.getElementById('examTime').value;
+            
+            if (!subject || !topic || !date || !time) return alert('Preencha tudo!');
+            
+            exams.push({
+                id: Date.now(),
+                subject, topic, date, time,
+                createdBy: currentUser.id,
+                createdByName: currentUser.name
+            });
+            
+            localStorage.setItem('exams7a', JSON.stringify(exams));
+            document.getElementById('examSubject').value = '';
+            document.getElementById('examTopic').value = '';
+            document.getElementById('examDate').value = '';
+            loadExams();
+        }
+
+        function deleteExam(id) {
+            if (!confirm('Excluir prova?')) return;
+            exams = exams.filter(e => e.id !== id);
+            localStorage.setItem('exams7a', JSON.stringify(exams));
+            loadExams();
+        }
+
+        function loadExams() {
+            const list = document.getElementById('examsList');
+            if (!exams.length) {
+                list.innerHTML = '<div class="card" style="text-align:center; padding:3rem;"><i class="fas fa-pencil-alt" style="font-size:3rem; color:#ccc;"></i><p style="color:#666;">Nenhuma prova.</p></div>';
+                return;
+            }
+            
+            const sorted = exams.sort((a,b) => new Date(a.date) - new Date(b.date));
+            list.innerHTML = sorted.map(e => `
+                <div class="exam-item">
+                    <div class="exam-card">
+                        <div class="exam-header">
+                            <h3>${e.subject} - ${e.topic}</h3>
+                            <span class="exam-date">${new Date(e.date).toLocaleDateString()}</span>
+                        </div>
+                        <div class="exam-info">
+                            <div class="exam-info-item"><i class="fas fa-clock"></i> ${e.time}</div>
+                            <div class="exam-info-item"><i class="fas fa-map-marker-alt"></i> Sala 34</div>
+                        </div>
+                        <div class="exam-author">
+                            <i class="fas fa-user"></i> ${e.createdByName}
+                            ${e.createdBy === currentUser.id ? 
+                                `<button onclick="deleteExam(${e.id})" style="margin-left:auto; background:none; border:none; color:#f44336; cursor:pointer;"><i class="fas fa-trash"></i> Excluir</button>` : ''}
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Estatísticas
+        function updateStats() {
+            document.getElementById('totalUsers').textContent = users.length;
+            document.getElementById('totalPosts').textContent = posts.length;
+            document.getElementById('totalTasks').textContent = tasks.length;
+        }
+    </script>
+</body>
+</html>
